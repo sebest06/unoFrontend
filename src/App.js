@@ -1,23 +1,34 @@
 import logo from './logo.svg';
 import './App.css';
+import Game from './components/Game';
+import Hook from './components/Hook';
+import Config from './components/Config';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
+
+  const params = new Proxy(new URLSearchParams(window.location.search), {
+    get: (searchParams, prop) => searchParams.get(prop),
+  });
+  const value = params.id; // "some_value"
+
+  if(value)
+  {
+    return (
+      <div className="App">
+        <Hook userid={value}></Hook>
+      </div>
+    );
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Config />} />
+          <Route path="/play/:id" element={<Hook></Hook>} />
+        </Routes>
+      </Router>
     </div>
   );
 }

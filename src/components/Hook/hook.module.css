@@ -1,0 +1,62 @@
+.card {
+    object-fit: none;
+  }
+
+  .card:nth-child(10n+1) {
+    position: relative;
+    z-index: 1;
+    left: 0px;
+  }
+  .card:nth-child(10n+2) {
+    position: relative;
+    z-index: 1;
+    left: -80px;
+  }
+  .card:nth-child(10n+3) {
+    position: relative;
+    z-index: 1;
+    left: -160px;
+  }
+  .c1 {
+    display: flex;
+    width: 185px;
+  }
+
+  li{
+    list-style: none;
+    display:inline;
+    padding-left:3px;
+    padding-right:3px;
+  }
+
+  .pila
+  {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: aqua;
+    padding: 1%;
+  }
+
+  .pilacartas 
+  {
+    padding: 0;
+  }
+
+  .botones > button
+  {
+    padding: 1%;
+    margin: 1%;
+  }
+
+  .mano
+  {
+    background-color: aquamarine;
+  }
+
+  .log
+  {
+    height: 200px;
+    overflow-y: scroll;
+    border: 1px black solid;
+  }
