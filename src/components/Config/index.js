@@ -60,6 +60,8 @@ export const Config = (props) => {
       <button onClick={() => startGame()}>
         Empezar
       </button>
+      <p> Install your local server in your cellphone. Use Termux</p>
+      <p>https://github.com/sebest06/unoBackend</p>
     </div>
   );
 }
