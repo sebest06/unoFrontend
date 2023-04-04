@@ -26,7 +26,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Config />} />
-          <Route path="/play/:id" element={<Hook></Hook>} />
+          <Route path="/play/:id/server/:server" element={<Hook></Hook>} />
         </Routes>
       </Router>
     </div>

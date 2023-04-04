@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import styles from './hook.module.css';
 import Carta from './../Carta';
 //const BaseURL = "https://juego-uno.herokuapp.com";
-const BaseURL = "http://192.168.54.101:8000";
+//const BaseURL = "http://192.168.54.101:8000";
 
 
 export const Hook = () => {
@@ -14,6 +14,11 @@ export const Hook = () => {
   const [score, setScore] = useState([]);
   const [nombre, setNombre] = useState();
   const [logs, setLogs] = useState([]);
+
+  useEffect(() => {
+    console.log(params);
+  }
+  )  ;
 
   const getCardImg = (card_id) => {
     card_id = card_id % 52;
@@ -38,7 +43,7 @@ export const Hook = () => {
 
   const handleClickPickOut = (card) => {
     setStatus("idle");
-    fetch(`${BaseURL}/hand?id=` + params.id + `&card=` + card, { method: "GET" })
+    fetch(`http://${params.server}/hand?id=` + params.id + `&card=` + card, { method: "GET" })
       .then((res) => (res.status === 200 ? res.json() : setStatus("rejected")))
       .then((result) => console.log(result))
       .catch((err) => setStatus("rejected"));
@@ -46,7 +51,7 @@ export const Hook = () => {
 
   const handleClickPickUp = () => {
     setStatus("idle");
-    fetch(`${BaseURL}/hand?id=` + params.id + `&rise=1`, { method: "GET" })
+    fetch(`http://${params.server}/hand?id=` + params.id + `&rise=1`, { method: "GET" })
       .then((res) => (res.status === 200 ? res.json() : setStatus("rejected")))
       .then((result) => console.log(result))
       .catch((err) => setStatus("rejected"));
@@ -54,7 +59,7 @@ export const Hook = () => {
 
   const handleClickUno = () => {
     setStatus("idle");
-    fetch(`${BaseURL}/hand?id=` + params.id + `&uno=1`, { method: "GET" })
+    fetch(`http://${params.server}/hand?id=` + params.id + `&uno=1`, { method: "GET" })
       .then((res) => (res.status === 200 ? res.json() : setStatus("rejected")))
       .then((result) => console.log(result))
       .catch((err) => setStatus("rejected"));
@@ -62,21 +67,21 @@ export const Hook = () => {
 
   const handleClickMezclar = () => {
     setStatus("idle");
-    fetch(`${BaseURL}/mezclar?id=` + params.id, { method: "GET" })
+    fetch(`http://${params.server}/mezclar?id=` + params.id, { method: "GET" })
       .then((res) => (res.status === 200 ? res.json() : setStatus("rejected")))
       .then((result) => console.log(result))
       .catch((err) => setStatus("rejected"));
   }
   const handleClickDeshacer = () => {
     setStatus("idle");
-    fetch(`${BaseURL}/back?id=` + params.id, { method: "GET" })
+    fetch(`http://${params.server}/back?id=` + params.id, { method: "GET" })
       .then((res) => (res.status === 200 ? res.json() : setStatus("rejected")))
       .then((result) => console.log(result))
       .catch((err) => setStatus("rejected"));
   }
 
   useEffect(() => {
-    const eventSource = new EventSource(`${BaseURL}/handhook`);
+    const eventSource = new EventSource(`http://${params.server}/handhook`);
     eventSource.onmessage = (e) => updateHand(e.data);
     return () => {
       eventSource.close();
