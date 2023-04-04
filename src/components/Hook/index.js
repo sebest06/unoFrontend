@@ -6,7 +6,7 @@ import Carta from './../Carta';
 //const BaseURL = "http://192.168.54.101:8000";
 
 
-export const Hook = () => {
+export const Hook = (props) => {
   const params = useParams();
   const [status, setStatus] = useState("idle");
   const [hand, setHand] = useState([]);
@@ -14,11 +14,6 @@ export const Hook = () => {
   const [score, setScore] = useState([]);
   const [nombre, setNombre] = useState();
   const [logs, setLogs] = useState([]);
-
-  useEffect(() => {
-    console.log(params);
-  }
-  )  ;
 
   const getCardImg = (card_id) => {
     card_id = card_id % 52;
@@ -28,7 +23,7 @@ export const Hook = () => {
 
   const updateHand = React.useCallback((data) => {
     const parsedData = JSON.parse(data);
-    const playerHand = parsedData["players"].find(element => Number(element['id']) === Number(params.id));
+    const playerHand = parsedData["players"].find(element => Number(element['id']) === Number(props.userid));
     setHand(playerHand["cartas"]);
     setNombre(playerHand["nombre"]);
     setPila(parsedData["pila"]);
@@ -43,7 +38,7 @@ export const Hook = () => {
 
   const handleClickPickOut = (card) => {
     setStatus("idle");
-    fetch(`http://${params.server}/hand?id=` + params.id + `&card=` + card, { method: "GET" })
+    fetch(`http://${props.servidor}/hand?id=` + props.userid + `&card=` + card, { method: "GET" })
       .then((res) => (res.status === 200 ? res.json() : setStatus("rejected")))
       .then((result) => console.log(result))
       .catch((err) => setStatus("rejected"));
@@ -51,7 +46,7 @@ export const Hook = () => {
 
   const handleClickPickUp = () => {
     setStatus("idle");
-    fetch(`http://${params.server}/hand?id=` + params.id + `&rise=1`, { method: "GET" })
+    fetch(`http://${props.servidor}/hand?id=` + props.userid + `&rise=1`, { method: "GET" })
       .then((res) => (res.status === 200 ? res.json() : setStatus("rejected")))
       .then((result) => console.log(result))
       .catch((err) => setStatus("rejected"));
@@ -59,7 +54,7 @@ export const Hook = () => {
 
   const handleClickUno = () => {
     setStatus("idle");
-    fetch(`http://${params.server}/hand?id=` + params.id + `&uno=1`, { method: "GET" })
+    fetch(`http://${props.servidor}/hand?id=` + props.userid + `&uno=1`, { method: "GET" })
       .then((res) => (res.status === 200 ? res.json() : setStatus("rejected")))
       .then((result) => console.log(result))
       .catch((err) => setStatus("rejected"));
@@ -67,21 +62,21 @@ export const Hook = () => {
 
   const handleClickMezclar = () => {
     setStatus("idle");
-    fetch(`http://${params.server}/mezclar?id=` + params.id, { method: "GET" })
+    fetch(`http://${props.servidor}/mezclar?id=` + props.userid, { method: "GET" })
       .then((res) => (res.status === 200 ? res.json() : setStatus("rejected")))
       .then((result) => console.log(result))
       .catch((err) => setStatus("rejected"));
   }
   const handleClickDeshacer = () => {
     setStatus("idle");
-    fetch(`http://${params.server}/back?id=` + params.id, { method: "GET" })
+    fetch(`http://${props.servidor}/back?id=` + props.userid, { method: "GET" })
       .then((res) => (res.status === 200 ? res.json() : setStatus("rejected")))
       .then((result) => console.log(result))
       .catch((err) => setStatus("rejected"));
   }
 
   useEffect(() => {
-    const eventSource = new EventSource(`http://${params.server}/handhook`);
+    const eventSource = new EventSource(`http://${props.servidor}/handhook`);
     eventSource.onmessage = (e) => updateHand(e.data);
     return () => {
       eventSource.close();

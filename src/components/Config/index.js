@@ -54,7 +54,7 @@ export const Config = (props) => {
       <p>Players: <input id="players" label="players" variant="players" onChange={(text) => createInputBoxes(text.target.value)} /></p>
       {
         inputboxes.map((value, index) => (
-          <p key={index}>Jugador {index}: <input id={"player[" + value["id"] + "]"} ref={value["nombre"]} /><Link to={'play/' + value['id'] + '/server/' + urlServer.current.value} >Play</Link></p>
+          <p key={index}>Jugador {index}: <input id={"player[" + value["id"] + "]"} ref={value["nombre"]} /><a href={window.location.href + "?id=" + value["id"] + "&server=" + urlServer.current.value}>Play!</a></p>
         ))
       }
       <button onClick={() => startGame()}>

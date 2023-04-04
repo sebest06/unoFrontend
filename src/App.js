@@ -10,27 +10,37 @@ function App() {
   const params = new Proxy(new URLSearchParams(window.location.search), {
     get: (searchParams, prop) => searchParams.get(prop),
   });
+
+  //
   const value = params.id; // "some_value"
+  const servidor = params.server;
 
   if(value)
   {
     return (
       <div className="App">
-        <Hook userid={value}></Hook>
+        <Hook userid={value} servidor={servidor}></Hook>
       </div>
     );
   }
 
   return (
     <div className="App">
-      <Router>
-        <Routes>
-          <Route path="/" element={<Config />} />
-          <Route path="/play/:id/server/:server" element={<Hook></Hook>} />
-        </Routes>
-      </Router>
+      {value 
+        ? <Hook userid={value} servidor={servidor}></Hook>  
+        : <Config></Config>
+      }
     </div>
   );
 }
+
+/*
+  <Router>
+    <Routes>
+      <Route path="/" element={<Config />} />
+      <Route path="/play/:id/server/:server" element={<Hook></Hook>} />
+    </Routes>
+  </Router>
+*/
 
 export default App;
